@@ -504,9 +504,8 @@ class WindowBase(EventDispatcher):
         if not android:
             import android
         keyboard_height = android.get_keyboard_height()
-        print ('keyboard_height: {0}'.format(keyboard_height))
+        # print ('keyboard_height: {0}'.format(keyboard_height))
         return keyboard_height
-        # return android.get_keyboard_height()
 
     def _get_kheight(self):
         if platform == 'android':
@@ -1061,13 +1060,19 @@ class WindowBase(EventDispatcher):
         x, y = 0, 0
         _h = h
         # NOTE following code experimental since kheight is unreliable
+        # Basically, if kheight is less than 200, not considering that a keyboard
+        # and setting to 0. I have changed android.get_keyboard_height(), to
+        # get the correct keyboard height, but I can't use it until it gets
+        # merged into python-for-android
         if smode == 'pan':
             print ('got to smode == pan change: {0}'.format(kheight))
-            if kheight < 100:
+            if kheight < 200:
                 y = 0
             else:
                 y = kheight
         elif smode == 'below_target':
+            if kheight < 200:
+                kheight = 0
             y = 0 if kheight < targettop else (kheight - targettop)
             print ('got to smode == below_target: y: {0}, kheight: {1}, targettop: {2}'.format(y, kheight, targettop))
         if smode == 'scale':
