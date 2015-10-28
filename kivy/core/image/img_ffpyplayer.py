@@ -44,7 +44,7 @@ class ImageLoaderFFPy(ImageLoaderBase):
     def extensions():
         '''Return accepted extensions for this loader'''
         # See https://www.ffmpeg.org/general.html#Image-Formats
-        return ('bmp', 'dpx', 'exr', 'gif', 'ico', 'jpeg', 'jpg2000', 'jpg',
+        return ('bmp', 'dpx', 'exr', 'gif', 'ico', 'jpeg', 'jpg2000', 'jpg', 'jpe' ,
                 'jls', 'pam', 'pbm', 'pcx', 'pgm', 'pgmyuv', 'pic', 'png',
                 'ppm', 'ptx', 'sgi', 'ras', 'tga', 'tiff', 'webp', 'xbm',
                 'xface', 'xwd')

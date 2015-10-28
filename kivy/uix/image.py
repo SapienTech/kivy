@@ -241,7 +241,7 @@ class Image(Widget):
         fbind('mipmap', update)
         if self.source:
             update()
-        self.on_anim_delay(self, kwargs.get('anim_delay', .25))
+        self.on_anim_delay(self, kwargs.get('anim_delay', 0))
 
     def texture_update(self, *largs):
         if not self.source:

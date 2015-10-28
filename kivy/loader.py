@@ -279,15 +279,20 @@ class LoaderBase(object):
     def _load_urllib(self, filename, kwargs):
         '''(internal) Loading a network file. First download it, save it to a
         temporary file, and pass it to _load_local().'''
+        print ('original filename: {0}'.format(filename))
         if PY2:
             import urllib2 as urllib_request
 
             def gettype(info):
+                the_info = info.gettype()
+                print ('gettype info: {0}'.format(the_info))
                 return info.gettype()
         else:
             import urllib.request as urllib_request
 
             def gettype(info):
+                the_info = info.get_content_type()
+                print ('gettype info: {0}'.format(the_info))
                 return info.get_content_type()
         proto = filename.split(':', 1)[0]
         if proto == 'smb':
@@ -315,8 +320,13 @@ class LoaderBase(object):
                 # allow extension override from URL fragment
                 suffix = '.' + filename.split('#.')[-1]
             else:
+                print ('fd.info()'.format(fd.info()))
                 ctype = gettype(fd.info())
+                print ('ctype: {0}'.format(ctype))
+                if ctype == 'application/octet-stream':
+                    ctype = 'image/jpeg'
                 suffix = mimetypes.guess_extension(ctype)
+                print ('suffix from loader.py: {0}'.format(suffix))
                 if not suffix:
                     # strip query string and split on path
                     parts = filename.split('?')[0].split('/')[1:]
@@ -328,7 +338,7 @@ class LoaderBase(object):
                         suffix = '.' + parts[-1].split('.')[-1]
             _out_osfd, _out_filename = tempfile.mkstemp(
                 prefix='kivyloader', suffix=suffix)
-
+            print ('out_osfd: {0}'.format(_out_osfd))
             idata = fd.read()
             fd.close()
             fd = None

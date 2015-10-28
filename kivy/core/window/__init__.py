@@ -497,12 +497,16 @@ class WindowBase(EventDispatcher):
         return 0
 
     def _get_android_kheight(self):
+        print ('getting android kheight: {0}'.format(USE_SDL2))
         if USE_SDL2:  # Placeholder until the SDL2 bootstrap supports this
             return 0
         global android
         if not android:
             import android
-        return android.get_keyboard_height()
+        keyboard_height = android.get_keyboard_height()
+        print ('keyboard_height: {0}'.format(keyboard_height))
+        return keyboard_height
+        # return android.get_keyboard_height()
 
     def _get_kheight(self):
         if platform == 'android':
@@ -1056,10 +1060,16 @@ class WindowBase(EventDispatcher):
 
         x, y = 0, 0
         _h = h
+        # NOTE following code experimental since kheight is unreliable
         if smode == 'pan':
-            y = kheight
+            print ('got to smode == pan change: {0}'.format(kheight))
+            if kheight < 100:
+                y = 0
+            else:
+                y = kheight
         elif smode == 'below_target':
             y = 0 if kheight < targettop else (kheight - targettop)
+            print ('got to smode == below_target: y: {0}, kheight: {1}, targettop: {2}'.format(y, kheight, targettop))
         if smode == 'scale':
             _h -= kheight
 

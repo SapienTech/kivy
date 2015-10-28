@@ -407,6 +407,7 @@ class ImageLoader(object):
 
         # extract extensions
         ext = filename.split('.')[-1].lower()
+        print ('filename, ext: {0}, {1}'.format(filename, ext))
 
         # prevent url querystrings
         if filename.startswith((('http://', 'https://'))):
@@ -422,6 +423,8 @@ class ImageLoader(object):
         else:
             im = None
             for loader in ImageLoader.loaders:
+                print ('ext: {0}'.format(ext))
+                print ('loader: {0}, {1}'.format(loader, loader.extensions()))
                 if ext not in loader.extensions():
                     continue
                 Logger.debug('Image%s: Load <%s>' %
